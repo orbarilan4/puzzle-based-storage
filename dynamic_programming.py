@@ -41,16 +41,26 @@ def create_all_final_states(grid):
     return final_states
 
 
-def create_all_neighbors_states(grid):
-    neighbors_states = []
-    grid_rows_number = grid.shape[0]
-    grid_cols_number = grid.shape[1]
+# Create the same grid with walls (it will be more easy to work like that)
+def create_grid_walls(grid):
+    grid_with_walls = np.full((grid.shape[0] + 2, grid.shape[1] + 2), 'w')
+    for row in range(1, grid.shape[0] + 1):
+        for col in range(1,grid.shape[1] + 1):
+            grid_with_walls[row, col] = grid[row - 1, col - 1]
+    return grid_with_walls
 
-    # Create the same grid with walls (it will be more easy to work like that)
-    grid_with_walls = np.full((grid_rows_number + 2, grid_cols_number + 2), 'w')
-    for row in range(1, grid_rows_number+1):
-        for col in range(1, grid_cols_number+1):
-            grid_with_walls[row, col] = grid[row-1, col-1]
+
+# Break the same grid with walls (it will be more easy to work like that)
+def break_grid_walls(grid):
+    return grid[1:(grid.shape[0]-1),1:(grid.shape[1]-1)]
+
+
+def create_all_neighbors_states(state):
+    neighbors_states = []
+    grid_rows_number = state.get_grid().shape[0]
+    grid_cols_number = state.get_grid().shape[1]
+
+    grid_with_walls = create_grid_walls(state.get_grid())
 
     grid = deepcopy(grid_with_walls)
     for row in range(1, grid_rows_number+1):
@@ -58,39 +68,49 @@ def create_all_neighbors_states(grid):
             if grid[row, col] == 'e':
                 if grid[row, col+1] == 'p' or grid[row, col+1] == 'x':
                     grid[row, col], grid[row, col+1] = grid[row, col+1], grid[row, col]
-                    neighbors_states.append(grid)
+                    neighbors_states.append(State(break_grid_walls(grid), state.get_f()+1, state))
                     grid = deepcopy(grid_with_walls)
                 if grid[row, col-1] == 'p' or grid[row, col-1] == 'x':
                     grid[row, col], grid[row, col-1] = grid[row, col-1], grid[row, col]
-                    neighbors_states.append(grid)
+                    neighbors_states.append(State(break_grid_walls(grid), state.get_f()+1, state))
                     grid = deepcopy(grid_with_walls)
                 if grid[row+1, col] == 'p' or grid[row+1, col] == 'x':
                     grid[row, col], grid[row+1, col] = grid[row+1, col], grid[row, col]
-                    neighbors_states.append(grid)
+                    neighbors_states.append(State(break_grid_walls(grid), state.get_f()+1, state))
                     grid = deepcopy(grid_with_walls)
                 if grid[row-1, col] == 'p' or grid[row-1, col] == 'x':
                     grid[row, col], grid[row-1, col] = grid[row-1, col], grid[row, col]
-                    neighbors_states.append(grid)
+                    neighbors_states.append(State(break_grid_walls(grid), state.get_f()+1, state))
                     grid = deepcopy(grid_with_walls)
     return neighbors_states
 
 
-A = [['e', 'x', 'e'], ['p', 'e', 'p'], ['p', 'p', 'p']]
-B = np.array(A)
-for i in create_all_neighbors_states(B):
-    print(i)
-# def main():
-#     A = [['e', 'x', 'e'], ['p', 'e', 'p'], ['p', 'p', 'p']]
-#     B = np.array(A)
-#     s = []
-#     s.append(create_all_final_states(B))  # Add S0 group into S
-#     i = 0
-#     while s[i-1] != None:
-#         s[i+1] = []
-#         for state in s[i]:
-#             for q in neighbors_states(state):
-#         print("a")
-#         i += 1
-#
-# if __name__ == '__main__':
-#     main()
+# A = [['e', 'x', 'e'], ['p', 'e', 'p'], ['p', 'p', 'p']]
+# B = np.array(A)
+
+def main():
+    A = [['e', 'x', 'e'], ['p', 'e', 'p'], ['p', 'p', 'p']]
+    B = np.array(A)
+    s = []
+    s.append(create_all_final_states(B))  # Add S0 group into S
+    i = 0
+    while True:
+        s.append([])
+        for state in s[i]:
+            for q in create_all_neighbors_states(state):
+                if(i == 0 or (q not in s[i-1])) and (q not in s[i]) and (q not in s[i+1]):
+                    s[i+1].append(q)
+        i += 1
+        if not s[i]:
+            break
+
+    count = 0
+    for v in s:
+        for z in v:
+            print(str(count) + ":")
+            print(z)
+        count +=1
+        print()
+
+if __name__ == '__main__':
+    main()
