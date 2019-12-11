@@ -1,6 +1,7 @@
 import numpy as np
 import itertools as it
 from state import *
+from copy import deepcopy
 
 # For a given grid it finds the amount of escorts (marked in 'e') and packages (marked in 'p')
 def get_grid_summary(grid):
@@ -51,60 +52,27 @@ def create_all_neighbors_states(grid):
         for col in range(1, grid_cols_number+1):
             grid_with_walls[row, col] = grid[row-1, col-1]
 
-    grid = grid_with_walls[:]
-    for row in range(1, grid_rows_number):
-        for col in range(1, grid_cols_number):
+    grid = deepcopy(grid_with_walls)
+    for row in range(1, grid_rows_number+1):
+        for col in range(1, grid_cols_number+1):
             if grid[row, col] == 'e':
-                if grid[row, col + 1] == 'p' or grid[row, col + 1] == 'x':
-                    grid[row, col], grid[row, col + 1] = grid[row, col + 1], grid[row, col]
+                if grid[row, col+1] == 'p' or grid[row, col+1] == 'x':
+                    grid[row, col], grid[row, col+1] = grid[row, col+1], grid[row, col]
                     neighbors_states.append(grid)
-                    grid = grid_with_walls[:]
-                if grid[row, col - 1] == 'p' or grid[row, col - 1] == 'x':
-                    grid[row, col], grid[row, col - 1] = grid[row, col - 1], grid[row, col]
+                    grid = deepcopy(grid_with_walls)
+                if grid[row, col-1] == 'p' or grid[row, col-1] == 'x':
+                    grid[row, col], grid[row, col-1] = grid[row, col-1], grid[row, col]
                     neighbors_states.append(grid)
-                    grid = grid_with_walls[:]
-                if grid[row + 1, col] == 'p' or grid[row + 1, col] == 'x':
-                    grid[row + 1, col], grid[row, col] = grid[row, col], grid[row + 1, col]
+                    grid = deepcopy(grid_with_walls)
+                if grid[row+1, col] == 'p' or grid[row+1, col] == 'x':
+                    grid[row, col], grid[row+1, col] = grid[row+1, col], grid[row, col]
                     neighbors_states.append(grid)
-                    grid = grid_with_walls[:]
-                if grid[row - 1, col] == 'p' or grid[row - 1, col] == 'x':
-                    grid[row - 1, col], grid[row, col] = grid[row, col], grid[row - 1, col]
+                    grid = deepcopy(grid_with_walls)
+                if grid[row-1, col] == 'p' or grid[row-1, col] == 'x':
+                    grid[row, col], grid[row-1, col] = grid[row-1, col], grid[row, col]
                     neighbors_states.append(grid)
-                    grid = grid_with_walls[:]
-                grid = grid_with_walls[:]
+                    grid = deepcopy(grid_with_walls)
     return neighbors_states
-
-#
-# def create_all_neighbors_states(grid):
-#     neighbors_states = []
-#     original_grid = grid
-#     grid_rows_number = grid.shape[0]
-#     grid_cols_number = grid.shape[1]
-#
-#     for row in range(0, grid_rows_number):
-#         for col in range(0, grid_cols_number):
-#             if grid[row,col] == 'e':
-#                 if col != grid_cols_number:
-#                     if grid[row, col+1] == 'p' or grid[row, col+1] == 'x':
-#                         grid[row, col], grid[row, col+1] = grid[row, col+1], grid[row, col]
-#                         neighbors_states.append(grid)
-#                         grid = original_grid
-#                 if col != 0:
-#                     if grid[row, col-1] == 'p' or grid[row, col-1] == 'x':
-#                         grid[row, col], grid[row, col-1] = grid[row, col-1], grid[row, col]
-#                         neighbors_states.append(grid)
-#                         grid = original_grid
-#                 if row != grid_rows_number:
-#                     if grid[row+1, col] == 'p' or grid[row+1, col] == 'x':
-#                         grid[row+1, col], grid[row, col] = grid[row, col], grid[row+1, col]
-#                         neighbors_states.append(grid)
-#                         grid = original_grid
-#                 if row != 0:
-#                     if grid[row-1, col] == 'p' or grid[row-1, col] == 'x':
-#                         grid[row-1, col], grid[row, col] = grid[row, col], grid[row-1, col]
-#                         neighbors_states.append(grid)
-#                         grid = original_grid
-#     return neighbors_states
 
 
 A = [['e', 'x', 'e'], ['p', 'e', 'p'], ['p', 'p', 'p']]
