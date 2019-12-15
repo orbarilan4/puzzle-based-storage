@@ -85,6 +85,17 @@ def create_all_neighbors_states(state):
     return neighbors_states
 
 
+def find_the_shortest_path(state):
+    print(state)
+    if not state.get_p():
+        return
+    find_the_shortest_path(state.get_p())
+
+
+
+
+
+
 # A = [['e', 'x', 'e'], ['p', 'e', 'p'], ['p', 'p', 'p']]
 # B = np.array(A)
 
@@ -104,13 +115,18 @@ def main():
         if not s[i]:
             break
 
-    count = 0
-    for v in s:
-        for z in v:
-            print(str(count) + ":")
-            print(z)
-        count +=1
-        print()
+    for states in s:
+        for state in states:
+            if State(B, 0, None) == state:
+                find_the_shortest_path(state)
+
+    # count = 0
+    # for v in s:
+    #     for z in v:
+    #         print(str(count) + ":")
+    #         print(z.get_f())
+    #     count +=1
+    #     print()
 
 if __name__ == '__main__':
     main()
