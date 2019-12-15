@@ -8,7 +8,7 @@ class State:
         self.p = p  # Denote the next optimal state
 
     def __eq__(self, other):
-        return np.array_equal(self.grid,other.grid)
+        return np.array_equal(self.grid, other.grid)
 
     def __str__(self):
         output = ""
@@ -23,6 +23,9 @@ class State:
 
     def get_f(self):
         return self.f
+
+    def get_p(self):
+        return self.p
 
     def set_grid(self, grid):
         self.grid = grid
