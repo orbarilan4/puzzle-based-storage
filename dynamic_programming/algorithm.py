@@ -5,12 +5,8 @@ from dynamic_programming.utils.state_utils import find_the_shortest_path
 from dynamic_programming.state import State
 
 # Hard Coded input
-A = [['e', 'x', 'p', 'p', 'p'],
-     ['p', 'p', 'p', 'p', 'p'],
-     ['p', 'p', 'p', 'p', 'p'],
-     ['p', 'p', 'p', 'p', 'p'],
-     ['p', 'p', 'p', 'p', 'p']]
-B = np.array(A)
+GRID = np.array([['e', 'x'], ['p', 'p'], ['e', 'p']])
+EXTRACTION_POINTS = np.array([[0, 0],[1, 1]])
 
 
 # Print the number of states in S
@@ -24,7 +20,7 @@ def print_number_of_states(states):
 
 def main():
     s = list()
-    s.append(create_all_final_states(B))  # Add S0 group into S
+    s.append(create_all_final_states(GRID, EXTRACTION_POINTS))  # Add S0 group into S
     i = 0
     while True:
         s.append([])
@@ -39,7 +35,7 @@ def main():
     # Find the state that present the given grid in S
     for states in s:
         for state in states:
-            if State(B, 0, None) == state:
+            if State(GRID, 0, None) == state:
                 print("The time for the given state is: " + str(state.get_f()))
                 print("The order of operation will be:")
                 find_the_shortest_path(state)
