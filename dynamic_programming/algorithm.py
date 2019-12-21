@@ -5,8 +5,12 @@ from dynamic_programming.utils.state_utils import find_the_shortest_path
 from dynamic_programming.state import State
 
 # Hard Coded input
-GRID = np.array([['e', 'x'], ['p', 'p'], ['e', 'p']])
-EXTRACTION_POINTS = np.array([[0, 0],[1, 1]])
+GRID = np.array([['e', 'p', 'p', 'p', 'p'],
+                 ['p', 'p', 'p', 'p', 'p'],
+                 ['p', 'p', 'x', 'p', 'p'],
+                 ['p', 'p', 'p', 'p', 'p'],
+                 ['e', 'p', 'p', 'p', 'p']])
+EXTRACTION_POINTS = np.array([[1,2]])
 
 
 # Print the number of states in S
