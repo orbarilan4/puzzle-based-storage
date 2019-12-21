@@ -1,6 +1,5 @@
 import numpy as np
 
-
 # For a given grid it finds the amount of escorts (marked in 'e') and packages (marked in 'p')
 def get_grid_summary(grid):
     summary = {'p': 0, 'e': 0}
