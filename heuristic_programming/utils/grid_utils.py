@@ -1,5 +1,6 @@
 import numpy as np
 
+
 # For a given grid it finds the amount of escorts (marked in 'e') and packages (marked in 'p')
 def get_grid_summary(grid):
     summary = {'p': 0, 'e': 0}
@@ -10,6 +11,16 @@ def get_grid_summary(grid):
             if grid[row, col] == 'e':
                 summary['e'] += 1
     return summary
+
+
+# For a given grid it finds all the loads in it
+def get_grid_loads(grid):
+    loads = []
+    for row in range(0, grid.shape[0]):
+        for col in range(0, grid.shape[1]):
+            if grid[row, col] == 'x':
+                loads.append([row,col])
+    return loads
 
 
 # Create the same grid with walls (it will be more easy to work like that)

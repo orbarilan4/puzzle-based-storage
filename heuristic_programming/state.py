@@ -2,9 +2,10 @@ import numpy as np
 
 
 class State:
-    def __init__(self, grid, parent=None):
-        self.parent = parent # Denote the previous state (parent state)
+    def __init__(self, grid, extraction_points, parent=None):
+        self.parent = parent  # Denote the previous state (parent state)
         self.grid = grid  # Denote the actual grid which defines the state
+        self.extraction_points = extraction_points # Denote the grid extraction points (I/O point)
 
         self.g = 0
         self.h = 0
