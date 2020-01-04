@@ -20,18 +20,18 @@ def create_all_neighbors_states(state):
             if grid[row, col] == 'e':
                 if grid[row, col+1] == 'p' or grid[row, col+1] == 'x':
                     grid[row, col], grid[row, col+1] = grid[row, col+1], grid[row, col]
-                    neighbors_states.append(State(break_grid_walls(grid), state))
+                    neighbors_states.append(State(break_grid_walls(grid), state.extraction_points, state))
                     grid = deepcopy(grid_with_walls)
                 if grid[row, col-1] == 'p' or grid[row, col-1] == 'x':
                     grid[row, col], grid[row, col-1] = grid[row, col-1], grid[row, col]
-                    neighbors_states.append(State(break_grid_walls(grid), state))
+                    neighbors_states.append(State(break_grid_walls(grid), state.extraction_points, state))
                     grid = deepcopy(grid_with_walls)
                 if grid[row+1, col] == 'p' or grid[row+1, col] == 'x':
                     grid[row, col], grid[row+1, col] = grid[row+1, col], grid[row, col]
-                    neighbors_states.append(State(break_grid_walls(grid), state))
+                    neighbors_states.append(State(break_grid_walls(grid), state.extraction_points, state))
                     grid = deepcopy(grid_with_walls)
                 if grid[row-1, col] == 'p' or grid[row-1, col] == 'x':
                     grid[row, col], grid[row-1, col] = grid[row-1, col], grid[row, col]
-                    neighbors_states.append(State(break_grid_walls(grid), state))
+                    neighbors_states.append(State(break_grid_walls(grid), state.extraction_points, state))
                     grid = deepcopy(grid_with_walls)
     return neighbors_states

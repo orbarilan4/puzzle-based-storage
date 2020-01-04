@@ -1,10 +1,12 @@
 from heuristic_programming.state import State
 from heuristic_programming.states.final_states import create_all_final_states
 from heuristic_programming.states.neighbors_states import create_all_neighbors_states
+from heuristic_programming.heuristics.heuristic import Heuristic
+from heuristic_programming.heuristics.manhattan_distance import manhattan_distance
 import numpy as np
 
 
-def a_star(start_state, end_states):
+def a_star(start_state, end_states, heuristic):
     # Initialize both open and closed list
     open_list = []
     closed_list = []
@@ -14,7 +16,7 @@ def a_star(start_state, end_states):
     count=0
     # Loop until you find the end
     while len(open_list) > 0:
-        count+=1
+        count += 1
         # Get the current node
         current_state = open_list[0]
         current_index = 0
@@ -34,6 +36,7 @@ def a_star(start_state, end_states):
             while current is not None:
                 path.append(current.grid)
                 current = current.parent
+            print(len(open_list)+len(closed_list))
             return path[::-1]  # Return reversed path
 
         # Generate children
@@ -48,7 +51,7 @@ def a_star(start_state, end_states):
 
             # Create the f, g, and h values
             child.g = current_state.g + 1
-            child.h = 0
+            child.h = heuristic.execute(child)
             child.f = child.g + child.h
 
             # Child is already in the open list
@@ -61,10 +64,6 @@ def a_star(start_state, end_states):
 
             # Add the child to the open list
             open_list.append(child)
-            # for i in open_list:
-            #     print(count)
-            #     print(i)
-            #     print(i.g)
 
 
 def main():
@@ -73,8 +72,9 @@ def main():
                      ['p', 'p', 'x', 'p', 'p'],
                      ['p', 'p', 'p', 'p', 'p'],
                      ['e', 'p', 'p', 'p', 'p']])
-    EXTRACTION_POINTS = np.array([[1,2]])
-    x = a_star(State(GRID, None), create_all_final_states(GRID, EXTRACTION_POINTS))
+    EXTRACTION_POINTS = np.array([[1, 2]])
+    start_state = State(GRID, EXTRACTION_POINTS, None)
+    x = a_star(start_state, create_all_final_states(start_state), Heuristic(manhattan_distance))
     for i in x:
         print(i)
         print()
