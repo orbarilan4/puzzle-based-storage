@@ -2,6 +2,7 @@ import itertools as it
 import numpy as np
 from heuristic_programming.utils.grid_utils import get_grid_summary
 from heuristic_programming.state import State
+from settings import *
 
 
 # For a given state (grid and his extractions points) it will generate all the optional final states
@@ -17,13 +18,13 @@ def create_all_final_states(state):
     for extraction_point in state.extraction_points:
         # It will find all the grid combinations for the a summary
         # Example: s = {'p': 2, 'e': 1} => combinations are 'epp' or 'pep' or 'ppe'
-        for bits in it.combinations(range(state.grid.size-1), summary['e']):
-            s = ['p'] * (state.grid.size-1)
+        for bits in it.combinations(range(state.grid.size-1), summary[ESCORT]):
+            s = [PACKAGE] * (state.grid.size-1)
             for bit in bits:
-                s[bit] = 'e'
+                s[bit] = ESCORT
             # Add load (x) to the extraction point location and save it
             extraction_point_location = extraction_point[0] * state.grid.shape[1] + (extraction_point[1])
-            s.insert(extraction_point_location, 'x')
+            s.insert(extraction_point_location, LOAD)
             combinations.append(''.join(s))
 
     # Each combination will be a final state

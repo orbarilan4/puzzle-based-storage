@@ -1,6 +1,9 @@
 import numpy as np
 
 
+# Built by 'grid' and its 'extraction points'.
+# State can has parent which it's state too.
+# And State has parameters g,h,f
 class State:
     def __init__(self, grid, extraction_points, parent=None):
         self.parent = parent  # Denote the previous state (parent state)
