@@ -10,7 +10,7 @@ GRID = np.array([['e', 'p', 'p', 'p', 'p'],
                  ['p', 'p', 'x', 'p', 'p'],
                  ['p', 'p', 'p', 'p', 'p'],
                  ['e', 'p', 'p', 'p', 'p']])
-EXTRACTION_POINTS = np.array([[1,2]])
+EXTRACTION_POINTS = np.array([[1, 2]])
 
 
 # Print the number of states in S
