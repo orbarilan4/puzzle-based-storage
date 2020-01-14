@@ -1,7 +1,7 @@
 from heuristic_programming.utils.grid_utils import get_grid_loads
 
 
-# manhattan_distance_pair is function which looking for the closest pairs <some load location,extraction point>
+# manhattan_distance_closest_pairs is function which looking for the closest pairs <some load location,extraction point>
 # and return the distance between them and the pair closest_load, closest_extraction_point
 # Example (when there are extraction points at [2,1],[2,2]).
 # p x p
@@ -10,7 +10,7 @@ from heuristic_programming.utils.grid_utils import get_grid_loads
 # The function will return: minimum_distance = 1. because the closest pair: [1,1] - load point, [2,1] - extraction point
 #                           closest_load = [1,1]
 #                           closest_extraction_point = [2,1]
-def manhattan_distance_pairs(state):
+def manhattan_distance_closest_pairs(state):
     loads_location = get_grid_loads(state.grid)
     minimum_distance = float("inf")
     for load_location in loads_location:
@@ -24,9 +24,9 @@ def manhattan_distance_pairs(state):
     return minimum_distance, closest_load, closest_extraction_point
 
 
-# This function will return only the minimum_distance parameter from manhattan_distance_pairs function
+# manhattan_distance will return only the minimum_distance parameter from manhattan_distance_pairs function
 def manhattan_distance(self, state):
-    minimum_distance, _, _ = manhattan_distance_pairs(state)
+    minimum_distance, _, _ = manhattan_distance_closest_pairs(state)
     return minimum_distance
 
 
