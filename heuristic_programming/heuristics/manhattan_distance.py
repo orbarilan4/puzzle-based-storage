@@ -1,4 +1,4 @@
-from heuristic_programming.utils.grid_utils import get_grid_loads
+from heuristic_programming.grid.grid_loads import get_grid_loads
 
 
 # manhattan_distance_closest_pairs is function which looking for the closest pairs <some load location,extraction point>

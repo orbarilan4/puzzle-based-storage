@@ -1,6 +1,6 @@
 import itertools as it
 import numpy as np
-from heuristic_programming.utils.grid_utils import get_grid_summary
+from heuristic_programming.grid.grid_summary import get_grid_summary
 from heuristic_programming.state import State
 from settings import *
 

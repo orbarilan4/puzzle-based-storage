@@ -1,7 +1,7 @@
 from heuristic_programming.state import *
 from copy import deepcopy
-from heuristic_programming.utils.grid_utils import create_grid_walls
-from heuristic_programming.utils.grid_utils import break_grid_walls
+from heuristic_programming.grid.grid_walls import create_grid_walls
+from heuristic_programming.grid.grid_walls import break_grid_walls
 from settings import *
 
 
