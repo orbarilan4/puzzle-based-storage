@@ -1,10 +1,21 @@
 from heuristic_programming.heuristics.manhattan_distance import manhattan_distance_closest_pairs
-from heuristic_programming.utils.grid_utils import get_mini_grid
-from heuristic_programming.utils.grid_paths import find_paths
+from heuristic_programming.grid.get_mini_grid import get_mini_grid
+from heuristic_programming.grid.grid_paths import find_paths
 import numpy as np
 from settings import PACKAGE, LOAD
 
 
+# manhattan_distance_plus_blocks is function which looking for the closest pairs <some load location,extraction point>
+# and return the distance between them with, considering packages on the way
+# The method is to add the number of blocks to the distance calculation,
+# this step makes sense since we will need at least one move to get rid of a block.
+# Example (when there are extraction points at [2,1],[2,2]).
+# p x p
+# p x p
+# e p p
+# The function will return: minimum_distance = 2. because the closest pair: [1,1] - load point, [2,1] - extraction point
+#                           closest_load = [1,1]
+#                           closest_extraction_point = [2,1]
 def manhattan_distance_plus_blocks(self, state):
     # Calculate the basic manhattan distance and get the 2 points
     minimum_distance, load_location, extraction_point = manhattan_distance_closest_pairs(state)
