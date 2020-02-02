@@ -1,17 +1,17 @@
 from heuristic_programming.states.neighbors_states import create_all_neighbors_states
+from heuristic_programming.states.final_states import is_final_state
 
 
-def a_star(start_state, end_states, heuristic):
+def a_star(start_state, heuristic):
     # Initialize both open and closed list
     open_list = []
     closed_list = []
 
     # Add the start node
     open_list.append(start_state)
-    count=0
+
     # Loop until you find the end
     while len(open_list) > 0:
-        count += 1
         # Get the current node
         current_state = open_list[0]
         current_index = 0
@@ -25,7 +25,7 @@ def a_star(start_state, end_states, heuristic):
         closed_list.append(current_state)
 
         # Found the goal
-        if current_state in end_states:
+        if is_final_state(current_state):
             path = []
             current = current_state
             while current is not None:
