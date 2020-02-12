@@ -6,8 +6,14 @@ from settings import PACKAGE, LOAD
 
 
 # manhattan_distance_plus_blocks is function which looking for the closest pairs <some load location,extraction point>
-# and return the distance between them with, considering packages on the way
-# The method is to add the number of blocks to the distance calculation,
+# and return the distance between them with, considering packages on the way to one of the extraction points
+# Note: global_minimum_number_of_blocks_in_path is the minimum number of blocks (on the ways) for all extraction points
+# Example (when there are extraction points at [0,0],[2,2])
+# p p p
+# p x p
+# e e p
+# global_minimum_number_of_blocks_in_path is 1. because there is a way to [2,2] with only one block.
+# The method is to add the global_minimum_number_of_blocks_in_path to the distance calculation,
 # this step makes sense since we will need at least one move to get rid of a block.
 # Example (when there are extraction points at [2,1],[2,2]).
 # p x p
@@ -18,31 +24,38 @@ from settings import PACKAGE, LOAD
 #                           closest_extraction_point = [2,1]
 def manhattan_distance_plus_blocks(self, state):
     # Calculate the basic manhattan distance and get the 2 points
-    minimum_distance, load_location, extraction_point = manhattan_distance_closest_pairs(state)
+    minimum_distance, load_location, _ = manhattan_distance_closest_pairs(state)
 
-    # Get the mini grid for the two points
-    mini_grid, top_left_point, bottom_right_point = get_mini_grid(state.grid, load_location, extraction_point)
+    global_minimum_number_of_blocks_in_path = float("inf")
 
-    # If the load is not in top-left point (or bottom-right) of our mini grid do a flip (turn it to a good situation)
-    # Example: good situations : x p    p p
-    #                            e e    e x
-    #
-    #          bad situations:   p x    p p
-    #                            e e    x e
-    # Notice that extraction point always will be at the opposite corner to the load (by definition of mini_grid)
-    # - Need to do that because find_paths function which comes after, works only from the top-left point
-    #   and it returns all the paths to the opposite corner.
-    if load_location != top_left_point and load_location != bottom_right_point:
-        mini_grid = np.flip(mini_grid, 1)
+    for extraction_point in state.extraction_points:
 
-    # Holding all the paths
-    paths = find_paths(mini_grid)
+        # Get the mini grid for the two points
+        mini_grid, top_left_point, bottom_right_point = get_mini_grid(state.grid, load_location, extraction_point)
 
-    # Searching for the minimum number of blocks in path
-    minimum_number_of_blocks_in_path = float("inf")
-    for path in paths:
-        number_of_blocks_in_path = path.count(PACKAGE) + path.count(LOAD) - 1  # Minus 1 because we start with Load
-        if number_of_blocks_in_path < minimum_number_of_blocks_in_path:
-            minimum_number_of_blocks_in_path = number_of_blocks_in_path
+        # If the load is not in top-left point (or bottom-right) of our mini grid do a flip(turn it to a good situation)
+        # Example: good situations : x p    p p
+        #                            e e    e x
+        #
+        #          bad situations:   p x    p p
+        #                            e e    x e
+        # Notice that extraction point always will be at the opposite corner to the load (by definition of mini_grid)
+        # - Need to do that because find_paths function which comes after, works only from the top-left point
+        #   and it returns all the paths to the opposite corner.
+        if load_location != top_left_point and load_location != bottom_right_point:
+            mini_grid = np.flip(mini_grid, 1)
 
-    return minimum_distance + minimum_number_of_blocks_in_path
+        # Holding all the paths
+        paths = find_paths(mini_grid)
+
+        # Searching for the minimum number of blocks in path
+        minimum_number_of_blocks_in_path = float("inf")
+        for path in paths:
+            number_of_blocks_in_path = path.count(PACKAGE) + path.count(LOAD) - 1  # Minus 1 because we start with Load
+            if number_of_blocks_in_path < minimum_number_of_blocks_in_path:
+                minimum_number_of_blocks_in_path = number_of_blocks_in_path
+
+        if minimum_number_of_blocks_in_path < global_minimum_number_of_blocks_in_path:
+            global_minimum_number_of_blocks_in_path = minimum_number_of_blocks_in_path
+
+    return minimum_distance + global_minimum_number_of_blocks_in_path

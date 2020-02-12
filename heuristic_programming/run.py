@@ -14,13 +14,18 @@ import shutil
 
 
 def main():
-
     create_new_results_directory("results")
+
+    # Add extraction points
+    extraction_points = []
+    for i in range(EXTRACTION_POINTS_NUMBER):
+        extraction_points.append([random.randint(0, ROWS_NUMBER - 1), random.randint(0, COLS_NUMBER - 1)])
+
     for i in range(1, ESCORTS_NUMBER+1):
         print("\n\nRESULTS FOR " + str(i) + " ESCORTS")
         start_states = generate_state(ITERATIONS_NUMBER, COLS_NUMBER,
                                       {ESCORT: i, LOAD: LOADS_NUMBER, PACKAGE: (ROWS_NUMBER * COLS_NUMBER)-LOADS_NUMBER-i},
-                                      [[random.randint(0, ROWS_NUMBER-1), random.randint(0, COLS_NUMBER-1)]])
+                                      extraction_points)
         f = open("results\_for_" + str(i) + "_escorts.txt", "a")
 
         f.write("\nFor A* Algorithm: (with manhattan distance considering blocks heuristic)")
