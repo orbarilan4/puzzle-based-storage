@@ -14,11 +14,13 @@ import shutil
 
 
 def main():
-    iterations_number = int(ITERATIONS_NUMBER)
+
     create_new_results_directory("results")
-    for i in range(1, 6):
+    for i in range(1, ESCORTS_NUMBER+1):
         print("\n\nRESULTS FOR " + str(i) + " ESCORTS")
-        start_states = generate_state(iterations_number, 5, {ESCORT: i, LOAD: 1, PACKAGE: 24-i}, [[random.randint(0, 4), random.randint(0, 4)]])
+        start_states = generate_state(ITERATIONS_NUMBER, COLS_NUMBER,
+                                      {ESCORT: i, LOAD: LOADS_NUMBER, PACKAGE: (ROWS_NUMBER * COLS_NUMBER)-LOADS_NUMBER-i},
+                                      [[random.randint(0, ROWS_NUMBER-1), random.randint(0, COLS_NUMBER-1)]])
         f = open("results\_for_" + str(i) + "_escorts.txt", "a")
 
         f.write("\nFor A* Algorithm: (with manhattan distance considering blocks heuristic)")
@@ -36,9 +38,9 @@ def main():
             sum_of_developed_states += number_of_developed_states
             sum_of_close_lists += close_list_size
         f.write("\nthe sum of the path lengths for all iterations: " + str(sum_of__path_lengths))
-        f.write("\nthe avg of developed states ever in open-list: " + str(sum_of_developed_states / iterations_number))
-        f.write("\nthe avg of the close-list size: " + str(sum_of_close_lists / iterations_number))
-        f.write("\nthe avg CPU time is: " + str((time.time() - start_time) / iterations_number))
+        f.write("\nthe avg of developed states ever in open-list: " + str(sum_of_developed_states / ITERATIONS_NUMBER))
+        f.write("\nthe avg of the close-list size: " + str(sum_of_close_lists / ITERATIONS_NUMBER))
+        f.write("\nthe avg CPU time is: " + str((time.time() - start_time) / ITERATIONS_NUMBER))
 
         f.write("\n\nFor A* Algorithm: (with manhattan distance heuristic)")
         f.write("\n================================================================================")
@@ -55,9 +57,9 @@ def main():
             sum_of_developed_states += number_of_developed_states
             sum_of_close_lists += close_list_size
         f.write("\nthe sum of the path lengths for all iterations: " + str(sum_of__path_lengths))
-        f.write("\nthe avg of developed states ever in open-list: " + str(sum_of_developed_states / iterations_number))
-        f.write("\nthe avg of the close-list size: " + str(sum_of_close_lists / iterations_number))
-        f.write("\nthe avg CPU time is: " + str((time.time() - start_time) / iterations_number))
+        f.write("\nthe avg of developed states ever in open-list: " + str(sum_of_developed_states / ITERATIONS_NUMBER))
+        f.write("\nthe avg of the close-list size: " + str(sum_of_close_lists / ITERATIONS_NUMBER))
+        f.write("\nthe avg CPU time is: " + str((time.time() - start_time) / ITERATIONS_NUMBER))
     #
     # print("\nBFS Algorithm: (A* with zero dummy heuristic)")
     # print("================================================================================")

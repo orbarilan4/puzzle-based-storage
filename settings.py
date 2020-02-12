@@ -10,4 +10,10 @@ WALL = settings.get('GridSymbols', 'WALL')
 PACKAGE = settings.get('GridSymbols', 'PACKAGE')
 LOAD = settings.get('GridSymbols', 'LOAD')
 ESCORT = settings.get('GridSymbols', 'ESCORT')
-ITERATIONS_NUMBER = settings.get('GridSymbols', 'ITERATIONS_NUMBER')
+
+ROWS_NUMBER = int(settings.get('GridInfo', 'ROWS_NUMBER'))
+COLS_NUMBER = int(settings.get('GridInfo', 'COLS_NUMBER'))
+
+ITERATIONS_NUMBER = int(settings.get('RunInfo', 'ITERATIONS_NUMBER'))
+ESCORTS_NUMBER = int(settings.get('RunInfo', 'ESCORTS_NUMBER'))
+LOADS_NUMBER = int(settings.get('RunInfo', 'LOADS_NUMBER'))
