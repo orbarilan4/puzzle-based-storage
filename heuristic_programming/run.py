@@ -26,7 +26,7 @@ def main():
         start_states = generate_state(ITERATIONS_NUMBER, COLS_NUMBER,
                                       {ESCORT: i, LOAD: LOADS_NUMBER, PACKAGE: (ROWS_NUMBER * COLS_NUMBER)-LOADS_NUMBER-i},
                                       extraction_points)
-        f = open("results\_for_" + str(i) + "_escorts.txt", "a")
+        f = open(os.path.join("results", "_for_" + str(i) + "_escorts.txt"), "a")
 
         f.write("\nFor A* Algorithm: (with manhattan distance considering blocks heuristic)")
         f.write("\n================================================================================")
