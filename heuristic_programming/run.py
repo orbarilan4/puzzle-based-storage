@@ -16,18 +16,14 @@ import shutil
 def main():
     create_new_results_directory("results")
 
-    # Add extraction points
-    extraction_points = []
-    for i in range(EXTRACTION_POINTS_NUMBER):
-        extraction_points.append([random.randint(0, ROWS_NUMBER - 1), random.randint(0, COLS_NUMBER - 1)])
-
     for i in range(1, ESCORTS_NUMBER+1):
         print("\n\nRESULTS FOR " + str(i) + " ESCORTS")
-        start_states = generate_state(ITERATIONS_NUMBER, COLS_NUMBER,
+        start_states = generate_state(ITERATIONS_NUMBER, ROWS_NUMBER, COLS_NUMBER,
                                       {ESCORT: i, LOAD: LOADS_NUMBER, PACKAGE: (ROWS_NUMBER * COLS_NUMBER)-LOADS_NUMBER-i},
-                                      extraction_points)
+                                      EXTRACTION_POINTS_NUMBER)
         f = open(os.path.join("results", "_for_" + str(i) + "_escorts.txt"), "a")
-
+        print("\nFor A* Algorithm: (with manhattan distance considering blocks heuristic)")
+        print("================================================================================")
         f.write("\nFor A* Algorithm: (with manhattan distance considering blocks heuristic)")
         f.write("\n================================================================================")
         start_time = time.time()
@@ -35,8 +31,8 @@ def main():
         sum_of_close_lists = 0
         sum_of__path_lengths = 0
         for start_state in start_states:
-            #print(start_state.grid)
-            #print(start_state.extraction_points)
+            print(start_state.grid)
+            print(start_state.extraction_points)
             path, number_of_developed_states, close_list_size = \
                 a_star(start_state, Heuristic(manhattan_distance_plus_blocks))
             sum_of__path_lengths += len(path)
@@ -46,7 +42,11 @@ def main():
         f.write("\nthe avg of developed states ever in open-list: " + str(sum_of_developed_states / ITERATIONS_NUMBER))
         f.write("\nthe avg of the close-list size: " + str(sum_of_close_lists / ITERATIONS_NUMBER))
         f.write("\nthe avg CPU time is: " + str((time.time() - start_time) / ITERATIONS_NUMBER))
+        f.close()
 
+        f = open(os.path.join("results", "_for_" + str(i) + "_escorts.txt"), "a")
+        print("\n\nFor A* Algorithm: (with manhattan distance heuristic)")
+        print("================================================================================")
         f.write("\n\nFor A* Algorithm: (with manhattan distance heuristic)")
         f.write("\n================================================================================")
         start_time = time.time()
@@ -54,8 +54,8 @@ def main():
         sum_of_close_lists = 0
         sum_of__path_lengths = 0
         for start_state in start_states:
-            #print(start_state.grid)
-            #print(start_state.extraction_points)
+            print(start_state.grid)
+            print(start_state.extraction_points)
             path, number_of_developed_states, close_list_size =\
                 a_star(start_state, Heuristic(manhattan_distance))
             sum_of__path_lengths += len(path)

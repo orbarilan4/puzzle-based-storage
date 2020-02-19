@@ -10,7 +10,7 @@ from copy import deepcopy
 # For a given state (grid and his extractions points) it will generate all the optional final states
 # Final state is defined by the location of the escorts and zero number of requested loads
 # There is at least one Extraction Point with escort in final state (and there is no loads on the grid)
-def generate_state(number_of_states, grid_cols_number, grid_details, extraction_points):
+def generate_state(number_of_states, grid_rows_number, grid_cols_number, grid_details, extraction_points_number):
 
     combinations = []
     generated_states = []
@@ -38,6 +38,10 @@ def generate_state(number_of_states, grid_cols_number, grid_details, extraction_
         # Combination becomes a grid
         combination = np.array(list(combination))
         combination = np.reshape(combination, (-1, grid_cols_number))
+        # create extraction points
+        extraction_points = []
+        for j in range(extraction_points_number):
+            extraction_points.append([random.randint(0, grid_rows_number - 1), random.randint(0, grid_cols_number - 1)])
         # Create new state from combination and add it to generated_states
         generated_state = State(combination, extraction_points, None)
         generated_states.append(generated_state)
