@@ -1,8 +1,15 @@
 from settings import LOAD
+from heuristic_programming.grid.grid_summary import get_grid_summary
 
 
+# For a given state check if is final state
 def is_final_state(state):
-    for extraction_point in state.extraction_points:
-        if state.grid[extraction_point[0]][extraction_point[1]] == LOAD:
-            return True
+    if get_grid_summary(state.grid)[LOAD] == 0:
+        return True
     return False
+
+
+
+
+
+
