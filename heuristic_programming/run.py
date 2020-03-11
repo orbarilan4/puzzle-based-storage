@@ -22,7 +22,7 @@ def main():
         start_states = generate_state(ITERATIONS_NUMBER, ROWS_NUMBER, COLS_NUMBER,
                                       {ESCORT: i, LOAD: LOADS_NUMBER, PACKAGE: (ROWS_NUMBER * COLS_NUMBER)-LOADS_NUMBER-i},
                                       EXTRACTION_POINTS_NUMBER)
-        #start_states = [State(grid=np.array([['e','x','p','x'],['p','p','p','p']]),extraction_points=[[1,2]])]
+        # start_states = [State(grid=np.array([['e','x','p','x'],['p','p','p','p']]),extraction_points=[[1,2]])]
         # f = open(os.path.join("results", "_for_" + str(i) + "_escorts.txt"), "a")
         # print("\nFor A* Algorithm: (with manhattan distance considering blocks heuristic)")
         # print("================================================================================")

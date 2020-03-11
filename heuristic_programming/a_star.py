@@ -3,7 +3,7 @@ from heuristic_programming.states.final_states import is_final_state
 from copy import deepcopy
 
 
-def a_star(start_state, heuristic):
+def a_star(start_state, first_heuristic, second_heuristic):
     # Initialize both open and closed list
     open_list = []
     closed_list = []
@@ -13,6 +13,10 @@ def a_star(start_state, heuristic):
 
     # Loop until you find the end
     while len(open_list) > 0:
+
+        # Ordering heuristic - open list sorted by second importance
+        open_list.sort(key=lambda x: x.f2, reverse=False)
+
         # Get the current node
         current_state = open_list[0]
         current_index = 0
@@ -50,8 +54,9 @@ def a_star(start_state, heuristic):
             if not is_final_state(child):
                 # Create the f, g, and h values
                 child.g = current_state.g + 1
-                child.h = heuristic.execute(child)
+                child.h = first_heuristic.execute(child)
                 child.f = child.g + child.h
+                child.h2 = second_heuristic.execute(child)
 
             # Child is already in the open list
             flag = 0

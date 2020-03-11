@@ -13,6 +13,7 @@ class State:
         self.g = 0
         self.h = 0
         self.f = 0
+        self.h2 = 0
 
     def __eq__(self, other):
         return np.array_equal(self.grid, other.grid)
