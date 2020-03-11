@@ -1,17 +1,18 @@
-from heuristic_programming.states.neighbors_states import create_all_neighbors_states
+from heuristic_programming.states.neighbors_states import create_all_neighbors_states, extract_loads
+from heuristic_programming.states.final_states import is_final_state
+from copy import deepcopy
 
 
-def a_star(start_state, end_states, heuristic):
+def a_star(start_state, heuristic):
     # Initialize both open and closed list
     open_list = []
     closed_list = []
 
     # Add the start node
-    open_list.append(start_state)
-    count=0
+    open_list.append(extract_loads(deepcopy(start_state)))
+
     # Loop until you find the end
     while len(open_list) > 0:
-        count += 1
         # Get the current node
         current_state = open_list[0]
         current_index = 0
@@ -25,7 +26,7 @@ def a_star(start_state, end_states, heuristic):
         closed_list.append(current_state)
 
         # Found the goal
-        if current_state in end_states:
+        if is_final_state(current_state):
             path = []
             current = current_state
             while current is not None:
@@ -44,10 +45,13 @@ def a_star(start_state, end_states, heuristic):
             if child in closed_list:
                 continue
 
-            # Create the f, g, and h values
-            child.g = current_state.g + 1
-            child.h = heuristic.execute(child)
-            child.f = child.g + child.h
+            # If child is not final state calculate his parameters
+            # Otherwise the default values of his parameters will be 0
+            if not is_final_state(child):
+                # Create the f, g, and h values
+                child.g = current_state.g + 1
+                child.h = heuristic.execute(child)
+                child.f = child.g + child.h
 
             # Child is already in the open list
             flag = 0
