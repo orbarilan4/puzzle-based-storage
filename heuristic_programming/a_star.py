@@ -3,6 +3,11 @@ from heuristic_programming.states.final_states import is_final_state
 from copy import deepcopy
 
 
+# A* path finding
+# for a given start_state it will try to find the easiest way to end state.
+# first_heuristic  - estimated distance from the current node to the end node (underestimate distance).
+# second_heuristic - ordering heuristic.
+#                    In case there are some states with the same f value, this heuristic will take a part
 def a_star(start_state, first_heuristic, second_heuristic):
     # Initialize both open and closed list
     open_list = []
@@ -15,7 +20,7 @@ def a_star(start_state, first_heuristic, second_heuristic):
     while len(open_list) > 0:
 
         # Ordering heuristic - open list sorted by second importance
-        open_list.sort(key=lambda x: x.f2, reverse=False)
+        open_list.sort(key=lambda x: x.h2, reverse=False)
 
         # Get the current node
         current_state = open_list[0]

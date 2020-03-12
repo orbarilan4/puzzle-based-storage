@@ -1,6 +1,5 @@
-from heuristic_programming.grid.grid_loads import get_grid_loads
-from heuristic_programming.state import State
-import numpy as np
+from heuristic_programming.grid.grid_items import get_grid_items
+from settings import LOAD
 
 
 # manhattan_distance_farthest_closest_pairs returns the farthest from all the closest paris
@@ -19,9 +18,9 @@ import numpy as np
 #                                      closest_load = [0,1]
 #                                      closest_extraction_point = [2,1]
 def manhattan_distance_farthest_closest_pairs(state):
-    loads_location = get_grid_loads(state.grid)
+    load_locations = get_grid_items(state.grid, LOAD)
     farthest_closest_pair_distance = 0
-    for load_location in loads_location:
+    for load_location in load_locations:
         # Distance from load to the closest extraction point
         minimum_distance_from_load_to_extraction_point = float("inf")
         for extraction_point in state.extraction_points:
