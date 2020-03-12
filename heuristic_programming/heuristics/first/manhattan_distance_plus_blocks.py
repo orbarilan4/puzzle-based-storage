@@ -1,4 +1,4 @@
-from heuristic_programming.heuristics.manhattan_distance import manhattan_distance_farthest_closest_pairs
+from heuristic_programming.heuristics.first.manhattan_distance import manhattan_distance_farthest_closest_pairs
 from heuristic_programming.grid.get_mini_grid import get_mini_grid
 from heuristic_programming.grid.grid_paths import find_paths
 import numpy as np

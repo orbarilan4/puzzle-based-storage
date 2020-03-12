@@ -8,11 +8,12 @@ class State:
     def __init__(self, grid, extraction_points, parent=None):
         self.parent = parent  # Denote the previous state (parent state)
         self.grid = grid  # Denote the actual grid which defines the state
-        self.extraction_points = extraction_points # Denote the grid extraction points (I/O point)
+        self.extraction_points = extraction_points  # Denote the grid extraction points (I/O point)
 
-        self.g = 0
-        self.h = 0
-        self.f = 0
+        self.g = 0  # the distance between the current node and the start node
+        self.h = 0  # first heuristic, the estimated distance from the current node to the end node
+        self.f = 0  # the total cost of the node
+        self.h2 = 0  # second heuristic, the ordering heuristic
 
     def __eq__(self, other):
         return np.array_equal(self.grid, other.grid)
