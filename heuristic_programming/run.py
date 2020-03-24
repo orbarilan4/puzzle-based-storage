@@ -1,7 +1,8 @@
 from heuristic_programming.heuristics.heuristic import Heuristic
-from heuristic_programming.heuristics.first.manhattan_distance import manhattan_distance
-from heuristic_programming.heuristics.first.manhattan_distance_plus_blocks import manhattan_distance_plus_blocks
-from heuristic_programming.heuristics.second.proximity_of_escorts_to_loads import proximity_of_escorts_to_loads
+from heuristic_programming.heuristics.traditional.manhattan_distance import manhattan_distance
+from heuristic_programming.heuristics.traditional.manhattan_distance_plus_blocks import manhattan_distance_plus_blocks
+from heuristic_programming.heuristics.ordering.proximity_of_escorts_to_loads import proximity_of_escorts_to_loads
+from heuristic_programming.heuristics.ordering.time_developed import time_developed
 from heuristic_programming.heuristics.zero_dummy import zero_dummy
 from heuristic_programming.a_star import a_star
 from heuristic_programming.state import State
@@ -21,13 +22,15 @@ def main():
         start_states = generate_state(ITERATIONS_NUMBER, ROWS_NUMBER, COLS_NUMBER,
                                       {ESCORT: i, LOAD: LOADS_NUMBER, PACKAGE: (ROWS_NUMBER * COLS_NUMBER)-LOADS_NUMBER-i},
                                       EXTRACTION_POINTS_NUMBER)
-        # #start_states = [State(grid=np.array([['p', 'p', 'x', 'p', 'p', 'p', 'p'],
+        # start_states = [State(grid=np.array([['p', 'p', 'x', 'p', 'p', 'p', 'p'],
         #                                      ['p', 'p', 'p', 'p', 'p', 'p', 'p'],
-        #                                      ['p', 'p', 'p', 'p', 'p', 'p', 'p'],
-        #                                      ['p', 'p', 'p', 'p', 'p', 'p', 'p'],
-        #                                      ['p', 'p', 'p', 'p', 'p', 'p', 'p'],
+        #                                      ['p', 'p', 'p', 'p', 'p', 'e', 'p'],
         #                                      ['e', 'p', 'p', 'p', 'p', 'p', 'p'],
-        #                                      ['p', 'e', 'p', 'p', 'p', 'p', 'p'],]),extraction_points=[[0,1]])]
+        #                                      ['p', 'p', 'p', 'p', 'p', 'p', 'p'],
+        #                                      ['p', 'p', 'p', 'p', 'p', 'p', 'p'],
+        #                                      ['p', 'p', 'p', 'p', 'p', 'p', 'p']]),extraction_points=[[0,1]])]
+       # start_states = [State(grid=np.array([['p', 'p', 'e', 'p', 'p', 'p', 'x'],
+        #                                     ['e', 'p', 'p', 'p', 'p', 'p', 'p']]),extraction_points=[[1,6]])]
         f = open(os.path.join("results", "_for_" + str(i) + "_escorts.txt"), "a")
         print("\nFor A* Algorithm: (with manhattan distance considering blocks heuristic)")
         print("================================================================================")
@@ -41,7 +44,10 @@ def main():
             print(start_state.grid)
             print(start_state.extraction_points)
             path, number_of_developed_states, close_list_size = \
-                a_star(start_state, Heuristic(manhattan_distance_plus_blocks), Heuristic(proximity_of_escorts_to_loads))
+                a_star(start_state,
+                       Heuristic(manhattan_distance_plus_blocks),
+                       Heuristic(proximity_of_escorts_to_loads),
+                       Heuristic(time_developed))
             for j in path:
                 print(j)
             sum_of__path_lengths += len(path)
@@ -66,7 +72,10 @@ def main():
             print(start_state.grid)
             print(start_state.extraction_points)
             path, number_of_developed_states, close_list_size =\
-                a_star(start_state, Heuristic(manhattan_distance), Heuristic(proximity_of_escorts_to_loads))
+                a_star(start_state,
+                       Heuristic(manhattan_distance),
+                       Heuristic(proximity_of_escorts_to_loads),
+                       Heuristic(time_developed))
             for j in path:
                 print(j)
             sum_of__path_lengths += len(path)

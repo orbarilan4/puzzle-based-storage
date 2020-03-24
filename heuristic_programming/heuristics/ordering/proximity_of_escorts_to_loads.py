@@ -2,7 +2,7 @@ from settings import ESCORT, LOAD
 from heuristic_programming.grid.grid_items import get_grid_items
 
 
-# proximity_of_escorts_to_loads return average distance between escorts and loads
+# proximity_of_escorts_to_loads returns the average distance between escorts and loads
 # In other words, looking for the closest pairs <load location,escort location> for each escort
 # (list the distances for each escort and his closest load)
 # and returns the average distance for all the pairs

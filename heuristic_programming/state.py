@@ -1,4 +1,5 @@
 import numpy as np
+import uuid
 
 
 # Built by 'grid' and its 'extraction points'.
@@ -10,10 +11,11 @@ class State:
         self.grid = grid  # Denote the actual grid which defines the state
         self.extraction_points = extraction_points  # Denote the grid extraction points (I/O point)
 
-        self.g = 0  # the distance between the current node and the start node
-        self.h = 0  # first heuristic, the estimated distance from the current node to the end node
-        self.f = 0  # the total cost of the node
-        self.h2 = 0  # second heuristic, the ordering heuristic
+        self.g = 0  # The distance between the current node and the start node
+        self.h = 0  # Traditional (Classic) Heuristic, the estimated distance from the current node to the end node
+        self.f = 0  # The total cost of the node
+        self.oh1 = 0  # Ordering Heuristic : First-Class
+        self.oh2 = 0  # Ordering Heuristic : Second-Class
 
     def __eq__(self, other):
         return np.array_equal(self.grid, other.grid)
