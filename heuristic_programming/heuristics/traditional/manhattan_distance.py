@@ -35,7 +35,7 @@ def manhattan_distance_farthest_closest_pairs(state):
     return farthest_closest_pair_distance, farthest_closest_pair[0], farthest_closest_pair[1]
 
 
-# manhattan_distance will return only the minimum_distance parameter
+# manhattan_distance will returns only the minimum_distance parameter
 # from manhattan_distance_farthest_closest_pairs function
 def manhattan_distance(self, state):
     distance, _, _ = manhattan_distance_farthest_closest_pairs(state)

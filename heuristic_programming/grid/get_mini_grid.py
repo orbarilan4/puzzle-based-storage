@@ -2,7 +2,7 @@
 
 # For a given grid and two points, it will generate a 'mini grid'.
 # Which start in first_point and end in second_point (or vice versa)
-# Example: first point = [1,1]
+# Example: first_point = [1,1]
 #          second_point = [0,2]
 #          grid = [ p p x ]
 #                 [ p e e ]

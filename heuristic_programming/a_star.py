@@ -5,10 +5,13 @@ from copy import deepcopy
 
 # A* path finding
 # for a given start_state it will try to find the easiest way to end state.
-# first_heuristic  - estimated distance from the current node to the end node (underestimate distance).
+# first_heuristic  - traditional heuristic.
+#                    Estimated distance from the current node to the end node (underestimate distance).
 # second_heuristic - ordering heuristic.
 #                    In case there are some states with the same f value, this heuristic will take a part
-def a_star(start_state, first_heuristic, second_heuristic):
+# third_heuristic - ordering heuristic.
+#                    In case there are some states with the same f value and oh1, this heuristic will take a part.
+def a_star(start_state, first_heuristic, second_heuristic, third_heuristic):
     # Initialize both open and closed list
     open_list = []
     closed_list = []
@@ -19,8 +22,8 @@ def a_star(start_state, first_heuristic, second_heuristic):
     # Loop until you find the end
     while len(open_list) > 0:
 
-        # Ordering heuristic - open list sorted by second importance
-        open_list.sort(key=lambda x: x.h2, reverse=False)
+        # Ordering heuristic - open list sorted by second and third importance
+        open_list.sort(key=lambda x: (x.oh1, x.oh2), reverse=False)
 
         # Get the current node
         current_state = open_list[0]
@@ -61,7 +64,8 @@ def a_star(start_state, first_heuristic, second_heuristic):
                 child.g = current_state.g + 1
                 child.h = first_heuristic.execute(child)
                 child.f = child.g + child.h
-                child.h2 = second_heuristic.execute(child)
+                child.oh1 = second_heuristic.execute(child)
+                child.oh2 = third_heuristic.execute(child)
 
             # Child is already in the open list
             flag = 0
