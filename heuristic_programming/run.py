@@ -2,6 +2,7 @@ from heuristic_programming.heuristics.heuristic import Heuristic
 from heuristic_programming.heuristics.traditional.manhattan_distance import manhattan_distance
 from heuristic_programming.heuristics.traditional.manhattan_distance_plus_blocks import manhattan_distance_plus_blocks
 from heuristic_programming.heuristics.ordering.proximity_of_escorts_to_loads import proximity_of_escorts_to_loads
+from heuristic_programming.heuristics.ordering.closest_escort_and_load import closest_escort_and_load
 from heuristic_programming.heuristics.ordering.time_developed import time_developed
 from heuristic_programming.heuristics.zero_dummy import zero_dummy
 from heuristic_programming.a_star import a_star
@@ -47,6 +48,7 @@ def main():
                 a_star(start_state,
                        Heuristic(manhattan_distance_plus_blocks),
                        Heuristic(proximity_of_escorts_to_loads),
+                       Heuristic(zero_dummy),
                        Heuristic(time_developed))
             for j in path:
                 print(j)
@@ -73,8 +75,9 @@ def main():
             print(start_state.extraction_points)
             path, number_of_developed_states, close_list_size =\
                 a_star(start_state,
-                       Heuristic(manhattan_distance),
+                       Heuristic(manhattan_distance_plus_blocks),
                        Heuristic(proximity_of_escorts_to_loads),
+                       Heuristic(closest_escort_and_load),
                        Heuristic(time_developed))
             for j in path:
                 print(j)
