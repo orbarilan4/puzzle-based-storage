@@ -1,5 +1,5 @@
 
-import numpy
+
 # For a given grid and item name it finds all the items in it
 # Return the locations
 def get_grid_items(grid, item):

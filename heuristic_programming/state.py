@@ -16,6 +16,7 @@ class State:
         self.f = 0  # The total cost of the node
         self.oh1 = 0  # Ordering Heuristic : First-Class
         self.oh2 = 0  # Ordering Heuristic : Second-Class
+        self.oh3 = 0  # Ordering Heuristic : Third-Class
 
     def __eq__(self, other):
         return np.array_equal(self.grid, other.grid)
