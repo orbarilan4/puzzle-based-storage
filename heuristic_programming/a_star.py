@@ -1,6 +1,8 @@
 from heuristic_programming.states.neighbors_states import create_all_neighbors_states, extract_loads
 from heuristic_programming.states.final_states import is_final_state
 from copy import deepcopy
+from settings import MAX_TIME_RUN_SEC
+import time
 
 
 # A* path finding
@@ -18,6 +20,8 @@ def a_star(start_state,
            first_ordering_heuristic,
            second_ordering_heuristic,
            third_ordering_heuristic):
+    # Start timer
+    timer = time.time()
 
     # Initialize both open and closed list
     open_list = []
@@ -28,6 +32,9 @@ def a_star(start_state,
 
     # Loop until you find the end
     while len(open_list) > 0:
+        # Check if time's up
+        if (time.time()-timer) >= MAX_TIME_RUN_SEC:
+            return [], float('inf'),  float('inf'),  float('inf')
 
         # Ordering heuristic - open list sorted by second and third importance
         open_list.sort(key=lambda x: (x.oh1, x.oh2, x.oh3), reverse=False)
@@ -51,8 +58,9 @@ def a_star(start_state,
             while current is not None:
                 path.append(current.grid)
                 current = current.parent
-            # Return [reversed path] [the number of developed states (ever in open list)] [the size of the close list]
-            return path[::-1], (len(open_list)+len(closed_list)), len(closed_list)
+            # returns [reversed path] [the number of developed states ever in open list (open list counter)]
+            #         [the size of the close list] [cpu time]
+            return path[::-1], (len(open_list)+len(closed_list)), len(closed_list), (time.time()-timer)
 
         # Generate children
         children = create_all_neighbors_states(current_state)

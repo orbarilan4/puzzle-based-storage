@@ -14,6 +14,8 @@ ESCORT = settings.get('GridSymbols', 'ESCORT')
 ROWS_NUMBER = int(settings.get('GridInfo', 'ROWS_NUMBER'))
 COLS_NUMBER = int(settings.get('GridInfo', 'COLS_NUMBER'))
 
+MAX_TIME_RUN_SEC = int(settings.get('AStarInfo', 'MAX_TIME_RUN_SEC'))
+
 ITERATIONS_NUMBER = int(settings.get('RunInfo', 'ITERATIONS_NUMBER'))
 ESCORTS_NUMBER = int(settings.get('RunInfo', 'ESCORTS_NUMBER'))
 LOADS_NUMBER = int(settings.get('RunInfo', 'LOADS_NUMBER'))

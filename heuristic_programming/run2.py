@@ -45,7 +45,7 @@ def main():
                         cols_number = start_state.grid.shape[1]
                         traditional_heuristic = manhattan_distance_plus_blocks\
                             if heuristic_name == heuristic_names[0] else manhattan_distance
-                        path, open_list_counter, close_list_size = \
+                        path, open_list_counter, close_list_size, cpu_time = \
                             a_star(start_state,
                                    Heuristic(traditional_heuristic),
                                    Heuristic(proximity_of_escorts_to_loads),
@@ -53,7 +53,7 @@ def main():
                                    Heuristic(zero_dummy))
                         writer.writerow(
                             [grid_string, rows_number, cols_number, extraction_point_locations, heuristic_name,
-                             close_list_size, open_list_counter, 'cpu_time', len(path)])
+                             close_list_size, open_list_counter, cpu_time, len(path)])
                     csv_file.close()
 
                 # start_states = generate_state(ITERATIONS_NUMBER, ROWS_NUMBER, COLS_NUMBER,
