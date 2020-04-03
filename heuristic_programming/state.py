@@ -29,17 +29,13 @@ class State:
             output += "\n"
         return output
 
-    def set_grid(self, grid):
-        self.grid = grid
-
-    def set_g(self, g):
-        self.g = g
-
-    def set_f(self, f):
-        self.f = f
-
-    def set_h(self, h):
-        self.h = h
-
     def get_grid(self):
         return self.grid
+
+    def get_grid_string(self):
+        output = ""
+        for row in range(0, self.grid.shape[0]):
+            for col in range(0, self.grid.shape[1]):
+                output += self.grid[row, col]
+        return output
+
