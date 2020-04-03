@@ -49,7 +49,7 @@ def main():
                             a_star(start_state,
                                    Heuristic(traditional_heuristic),
                                    Heuristic(proximity_of_escorts_to_loads),
-                                   Heuristic(zero_dummy),
+                                   Heuristic(time_developed),
                                    Heuristic(zero_dummy))
                         writer.writerow(
                             [grid_string, rows_number, cols_number, extraction_point_locations, heuristic_name,
