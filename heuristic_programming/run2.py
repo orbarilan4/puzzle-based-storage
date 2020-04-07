@@ -35,30 +35,38 @@ def main():
                                               {ESCORT: escorts_number, LOAD: LOADS_NUMBER,
                                                PACKAGE: (ROWS_NUMBER * COLS_NUMBER) - LOADS_NUMBER - escorts_number},
                                               extraction_points_number)
-                # Separate generate_states into chucks
-                start_states = [generated_stats[i::len(generated_stats)] for i in range(len(generated_stats))]
-                pool = Pool(processes=PROCESSES_NUMBER)
 
-                pool.map(multi_run_wrapper, zip(start_states,
-                                                itertools.repeat(heuristic_name),
-                                                itertools.repeat(extraction_points_number),
-                                                itertools.repeat(escorts_number)))
+                with open(os.path.join("results", heuristic_name,
+                                       str(extraction_points_number) + "_extraction_points",
+                                       "_for_" + str(escorts_number) + "_escorts.csv"), 'a',
+                          newline='') as csv_file:
+                    writer = csv.writer(csv_file, delimiter=',', quoting=csv.QUOTE_MINIMAL)
+                    writer.writerow(
+                        ['grid_string', 'rows_number', 'cols_number', 'extraction_point_locations',
+                         'heuristic_name',
+                         'close_list_size', 'open_list_counter', 'cpu_time', 'path_length'])
+                    csv_file.close()
+
+                    # Separate generate_states into chucks
+                    start_states = [generated_stats[i::len(generated_stats)] for i in range(len(generated_stats))]
+                    pool = Pool(processes=PROCESSES_NUMBER)
+
+                    pool.map(multi_run_wrapper, zip(start_states,
+                                                    itertools.repeat(heuristic_name),
+                                                    itertools.repeat(extraction_points_number),
+                                                    itertools.repeat(escorts_number)))
 
 
 def multi_run_wrapper(args):
    return run(*args)
 
 
-def run(start_states,heuristic_name,extraction_points_number,escorts_number):
+def run(start_states, heuristic_name, extraction_points_number, escorts_number):
     with open(os.path.join("results", heuristic_name,
                            str(extraction_points_number) + "_extraction_points",
                            "_for_" + str(escorts_number) + "_escorts.csv"), 'a',
               newline='') as csv_file:
         writer = csv.writer(csv_file, delimiter=',', quoting=csv.QUOTE_MINIMAL)
-        writer.writerow(
-            ['grid_string', 'rows_number', 'cols_number', 'extraction_point_locations',
-             'heuristic_name',
-             'close_list_size', 'open_list_counter', 'cpu_time', 'path_length'])
         for start_state in start_states:
             grid_string = start_state.get_grid_string()
             extraction_point_locations = start_state.extraction_points
