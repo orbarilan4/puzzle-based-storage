@@ -19,6 +19,11 @@ def generate_state(number_of_states, grid_rows_number, grid_cols_number, grid_de
 
     # Example: s = {'p': 2, 'e': 1} => combinations are 'epp' or 'pep' or 'ppe'
     numeric_combinations = list(it.combinations(range(grid_cells_number), grid_details[ESCORT]))
+
+    # In case numeric_combinations < number_of_states duplicate numeric_combinations
+    while len(numeric_combinations) < number_of_states:
+        numeric_combinations += numeric_combinations
+
     random.shuffle(numeric_combinations)
     for num, bits in enumerate(numeric_combinations, start=0):
         if num < number_of_states:

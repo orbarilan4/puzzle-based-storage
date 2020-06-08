@@ -23,6 +23,7 @@ heuristic_names = ['manhattan_distance_plus_blocks', 'manhattan_distance']
 
 def main():
     create_new_results_directory("results")
+    pool = Pool(processes=PROCESSES_NUMBER)
 
     for extraction_points_number in range(1, EXTRACTION_POINTS_NUMBER + 1):
         for escorts_number in range(1, ESCORTS_NUMBER + 1):
@@ -49,16 +50,16 @@ def main():
 
                     # Separate generate_states into chucks
                     start_states = [generated_stats[i::len(generated_stats)] for i in range(len(generated_stats))]
-                    pool = Pool(processes=PROCESSES_NUMBER)
 
                     pool.map(multi_run_wrapper, zip(start_states,
                                                     itertools.repeat(heuristic_name),
                                                     itertools.repeat(extraction_points_number),
                                                     itertools.repeat(escorts_number)))
+    pool.close()
 
 
 def multi_run_wrapper(args):
-   return run(*args)
+    return run(*args)
 
 
 def run(start_states, heuristic_name, extraction_points_number, escorts_number):
