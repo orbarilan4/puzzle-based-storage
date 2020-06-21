@@ -25,18 +25,17 @@ def main():
     create_new_results_directory("results")
     pool = Pool(processes=PROCESSES_NUMBER)
 
-    for heuristic_name in heuristic_names:
-        for loads_number in range(1, LOADS_NUMBER + 1):
-            for extraction_points_number in range(2, EXTRACTION_POINTS_NUMBER + 1):
-                for escorts_number in range(1, ESCORTS_NUMBER + 1):
+    for loads_number in range(1, LOADS_NUMBER + 1):
+        for extraction_points_number in range(2, EXTRACTION_POINTS_NUMBER + 1):
+            for escorts_number in range(1, ESCORTS_NUMBER + 1):
+                generated_stats = generate_state(ITERATIONS_NUMBER, ROWS_NUMBER, COLS_NUMBER,
+                                                 {ESCORT: escorts_number, LOAD: loads_number,
+                                                  PACKAGE: (ROWS_NUMBER * COLS_NUMBER) - loads_number - escorts_number},
+                                                 extraction_points_number)
+                for heuristic_name in heuristic_names:
                     print("The file of " + heuristic_name + " with: " + str(loads_number) + " loads and " +
                           str(extraction_points_number) + " extraction points and " +
                           str(escorts_number) + " escorts is ready !")
-
-                    generated_stats = generate_state(ITERATIONS_NUMBER, ROWS_NUMBER, COLS_NUMBER,
-                                                     {ESCORT: escorts_number, LOAD: loads_number,
-                                                      PACKAGE: (ROWS_NUMBER * COLS_NUMBER)-loads_number-escorts_number},
-                                                     extraction_points_number)
 
                     with open(os.path.join("results", heuristic_name,
                                            "_for_" + str(loads_number) + "_loads",
@@ -86,8 +85,8 @@ def run(start_states, loads_name, heuristic_name, extraction_points_number, esco
             path, open_list_counter, close_list_size, cpu_time = \
                 a_star(start_state,
                        Heuristic(traditional_heuristic),
-                       Heuristic(proximity_of_escorts_to_loads),
-                       Heuristic(time_developed),
+                       Heuristic(zero_dummy),
+                       Heuristic(zero_dummy),
                        Heuristic(zero_dummy))
             writer.writerow(
                 [grid_string, rows_number, cols_number, extraction_point_locations, heuristic_name,
