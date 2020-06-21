@@ -18,7 +18,10 @@ import shutil
 import csv
 import itertools
 
-heuristic_names = ['manhattan_distance_plus_blocks', 'manhattan_distance', 'zero_dummy']
+heuristic_names = ['zero_dummy',
+                   'manhattan_distance',
+                   'manhattan_distance_plus_blocks',
+                   'manhattan_distance_plus_blocks_with_ordering']
 
 
 def main():
@@ -77,17 +80,25 @@ def run(start_states, loads_name, heuristic_name, extraction_points_number, esco
             rows_number = start_state.grid.shape[0]
             cols_number = start_state.grid.shape[1]
             if heuristic_names[0] == heuristic_name:
-                traditional_heuristic = manhattan_distance_plus_blocks
+                traditional_heuristic = zero_dummy
             elif heuristic_name[1] == heuristic_name:
                 traditional_heuristic = manhattan_distance
             else:
-                traditional_heuristic = zero_dummy
-            path, open_list_counter, close_list_size, cpu_time = \
-                a_star(start_state,
-                       Heuristic(traditional_heuristic),
-                       Heuristic(zero_dummy),
-                       Heuristic(zero_dummy),
-                       Heuristic(zero_dummy))
+                traditional_heuristic = manhattan_distance_plus_blocks
+            if heuristic_name[3] == heuristic_name:
+                path, open_list_counter, close_list_size, cpu_time = \
+                    a_star(start_state,
+                           Heuristic(traditional_heuristic),
+                           Heuristic(proximity_of_escorts_to_loads),
+                           Heuristic(time_developed),
+                           Heuristic(zero_dummy))
+            else:
+                path, open_list_counter, close_list_size, cpu_time = \
+                    a_star(start_state,
+                           Heuristic(traditional_heuristic),
+                           Heuristic(zero_dummy),
+                           Heuristic(zero_dummy),
+                           Heuristic(zero_dummy))
             writer.writerow(
                 [grid_string, rows_number, cols_number, extraction_point_locations, heuristic_name,
                  close_list_size, open_list_counter, cpu_time, len(path)])
