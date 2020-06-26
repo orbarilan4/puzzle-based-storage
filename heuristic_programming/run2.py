@@ -67,9 +67,9 @@ def multi_run_wrapper(args):
     return run(*args)
 
 
-def run(start_states, loads_name, heuristic_name, extraction_points_number, escorts_number):
+def run(start_states, loads_number, heuristic_name, extraction_points_number, escorts_number):
     with open(os.path.join("results", heuristic_name,
-                           "_for_" + str(loads_name) + "_loads",
+                           "_for_" + str(loads_number) + "_loads",
                            "_for_" + str(extraction_points_number) + "_extraction_points",
                            "_for_" + str(escorts_number) + "_escorts.csv"), 'a',
               newline='') as csv_file:
@@ -81,11 +81,11 @@ def run(start_states, loads_name, heuristic_name, extraction_points_number, esco
             cols_number = start_state.grid.shape[1]
             if heuristic_names[0] == heuristic_name:
                 traditional_heuristic = zero_dummy
-            elif heuristic_name[1] == heuristic_name:
+            elif heuristic_names[1] == heuristic_name:
                 traditional_heuristic = manhattan_distance
             else:
                 traditional_heuristic = manhattan_distance_plus_blocks
-            if heuristic_name[3] == heuristic_name:
+            if heuristic_names[3] == heuristic_name:
                 path, open_list_counter, close_list_size, cpu_time = \
                     a_star(start_state,
                            Heuristic(traditional_heuristic),
